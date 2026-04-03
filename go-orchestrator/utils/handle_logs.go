@@ -36,6 +36,7 @@ func InitLogger() {
 
 	multi := zerolog.MultiLevelWriter(consoleWriter, fileLogger)
 
+	// Log = zerolog.New(multi).With().Timestamp().Logger()
 	Log = zerolog.New(multi).With().Timestamp().Caller().Logger()
 
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
