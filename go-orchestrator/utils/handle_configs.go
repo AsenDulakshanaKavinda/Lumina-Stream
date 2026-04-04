@@ -1,16 +1,9 @@
 package utils
 
-// This file contains functions related to handling configurations, such as loading environment variables and configuration files.
-// It uses the "github.com/joho/godotenv" package to load environment variables from a .env file and the "github.com/spf13/viper" package to manage configuration files.
-
-/* 
-utils.LoadConfigs()
-
-config := viper.GetStringMapString("example")
-fmt.Println(config)
-fmt.Println(config["key1"])
-*/
-
+// this file is responsible for loading configurations from .env and YAML files using Viper and godotenv packages. 
+// It defines a Config struct to hold the configuration values and a LoadConfigs function to read the configurations into the AppConfig variable. 
+// Calls LoadConfigs to initialize the configuration before using it in the application.
+// example usage - fmt.Println("DB Username:", utils.AppConfig.ExampleParams.Username)
 
 import (
 	"log"
@@ -20,16 +13,32 @@ import (
 	"github.com/spf13/viper"
 )
 
+// todo - change this according to the YAML structure
+type Config struct {
+    ExampleParams struct {
+        Username string `mapstructure:"username"`
+        Password string `mapstructure:"password"`
+        Address  string `mapstructure:"address"`
+        Database string `mapstructure:"database"`
+    } `mapstructure:"exampleparams"` 
+    
+    ServerAddr string `mapstructure:"server_address"`
+}
+
+var AppConfig Config
+
 
 func LoadConfigs() {
-
+	// - read the env file using godotenv, determine the config file name based on the ENV variable, 
+	// and load the YAML configuration using Viper.
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error while loading .env file: %v", err)
 	}
 	config_env := os.Getenv("ENV")
-	config_name := "config." + config_env + ".yaml"
+	config_name := "config." + config_env 
 
+	// - set up Viper to read the YAML configuration file, and unmarshal the configuration values into the AppConfig variable.
 	viper.AddConfigPath("./configs")
 	viper.SetConfigName(config_name)
 	viper.SetConfigType("yaml")
@@ -38,4 +47,7 @@ func LoadConfigs() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error while loading configs: %v", err)
 	}
+
+	// - handle any errors that occur during the loading process and log them appropriately.
+	viper.Unmarshal(&AppConfig)
 }

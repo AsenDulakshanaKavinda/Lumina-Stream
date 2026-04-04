@@ -1,3 +1,6 @@
-example:
-  key1: "value1-dev"
-  key2: "value2-dev"
+ExampleParams:
+  username: value1-dev
+  password: value2-dev
+  address: address
+  database: database
+server_address: server_address
