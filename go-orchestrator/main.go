@@ -10,7 +10,7 @@ import (
 
 func main() {
 	utils.InitLogger()
-	utils.LoadCofigs()
+	utils.LoadConfigs()
 
 	utils.Log.Info().Msg("Processing request")
     utils.Log.Info().Msg("User created successfully")

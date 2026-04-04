@@ -4,7 +4,7 @@ package utils
 // It uses the "github.com/joho/godotenv" package to load environment variables from a .env file and the "github.com/spf13/viper" package to manage configuration files.
 
 /* 
-utils.LoadCofigs()
+utils.LoadConfigs()
 
 config := viper.GetStringMapString("example")
 fmt.Println(config)
@@ -21,7 +21,7 @@ import (
 )
 
 
-func LoadCofigs() {
+func LoadConfigs() {
 
 	err := godotenv.Load()
 	if err != nil {
