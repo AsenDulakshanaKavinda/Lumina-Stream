@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 from logging.handlers import RotatingFileHandler
+from pythonjsonlogger import jsonlogger
 from pathlib import Path
 
 
@@ -32,16 +33,13 @@ def get_logger(file_path: str):
 
 
     file_name = Path(file_path).stem  # extract file name without extension
-    if len(file_name) > 20:
-        file_name = file_name[:20]  # truncate to 20 characters if too long
-    file_name = file_name + " " * (20 - len(file_name))  
     logger = logging.getLogger(file_name)
 
     if not logger.handlers:
         # crete log filepath
-        log_file = os.path.join(LOG_DIR, f"{LOG_FILE}.log")
+        log_file = os.path.join(LOG_DIR, f"{LOG_FILE}")
 
-        # - console handler setup -
+        # 1. console handler setup -
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.stream.reconfigure(encoding="utf-8", errors="replace")
         console_handler.setFormatter(
@@ -50,7 +48,7 @@ def get_logger(file_path: str):
             )
         )
 
-        # - file handler setup -
+        # 2. file handler setup -
         os.makedirs(LOG_DIR, exist_ok=True)
         file_handler = RotatingFileHandler(
             log_file,
@@ -58,7 +56,7 @@ def get_logger(file_path: str):
             backupCount=3
         )
         file_handler.setFormatter(
-            logging.Formatter(
+            jsonlogger.JsonFormatter(
                 "%(levelname)s | %(asctime)s | %(name)s | %(message)s"
             )
         )

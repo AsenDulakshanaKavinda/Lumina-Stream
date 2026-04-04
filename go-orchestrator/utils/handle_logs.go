@@ -19,7 +19,7 @@ import (
 var Log zerolog.Logger
 
 func InitLogger() {
-	// setup lumberjack for log rotation
+	// 1. setup lumberjack for log rotation
 	fileLogger := &lumberjack.Logger{
 		Filename: "logs/app.log",
 		MaxSize: 10,
@@ -28,15 +28,14 @@ func InitLogger() {
 		Compress: true,
 	}
 
-	// setup console output
+	// 2. setup console output
 	consoleWriter := zerolog.ConsoleWriter{
 		Out: os.Stdout,
-		TimeFormat: time.RFC3339,
+		TimeFormat: time.DateTime,
 	}
 
 	multi := zerolog.MultiLevelWriter(consoleWriter, fileLogger)
 
-	// Log = zerolog.New(multi).With().Timestamp().Logger()
 	Log = zerolog.New(multi).With().Timestamp().Caller().Logger()
 
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
