@@ -3,8 +3,9 @@
 import grpc
 import warnings
 
-# import embedding_pb2 as embedding__pb2
+#import embedding_pb2 as embedding__pb2
 import pb.embedding_pb2 as embedding__pb2
+
 
 GRPC_GENERATED_VERSION = '1.80.0'
 GRPC_VERSION = grpc.__version__

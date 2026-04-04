@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	pb "grpc-go-server/pb"
+	pb "orchestrator/pb"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -16,9 +16,11 @@ import (
 )
 
 func Client() {
+	target_addr := utils.GetConfig().GRPCConfig.ServerAddr
+	
 	// setup the connection to the embedder server
 	conn, err := grpc.NewClient(
-		utils.GetConfig().GRPCConfig.ServerAddr,
+		target_addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
@@ -36,7 +38,7 @@ func Client() {
 		utils.Log.Error().Err(err).Msg("Error while receiving response")
 	}
 	utils.Log.Info().Msg("Received response from server")
-	fmt.Println("Response: ", response.Vector)
+	fmt.Println("Response: ", response)
 
 
 }
