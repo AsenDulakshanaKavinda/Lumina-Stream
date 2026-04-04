@@ -15,6 +15,15 @@ import (
 
 // todo -- // - change this according to the YAML structure - // todo -- //
 type Config struct {
+	Logging struct {
+		LogFile string `mapstructure:"log_file"`
+		LogDir string `mapstructure:"log_dir"`
+		MaxSize string `mapstructure:"max-size"`
+		MaxAge string `mapstructure:"max_age"`
+		MaxBackups string `mapstructure:"max_backups"`
+		Compress bool `mapstructure: "compress"`
+	}
+
     ExampleParams struct {
         Username string `mapstructure:"username"`
         Password string `mapstructure:"password"`
