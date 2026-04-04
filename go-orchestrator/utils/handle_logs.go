@@ -13,24 +13,24 @@ import (
 
 	"github.com/rs/zerolog"
 	"gopkg.in/natefinch/lumberjack.v2"
-
-	"orchestrator/utils"
 )
 
 var Log zerolog.Logger
 
 func InitLogger() {
-	utils.LoadConfigs()
-	Filename := utils.AppConfig.Logging.LogDir + "/" + utils.AppConfig.Logging.LogFile
+	
+	logFile := GetConfig().Logging.LogFile
+	logDir := GetConfig().Logging.LogDir
+	fileName := logDir + "/" + logFile
 
 
 	// 1. setup lumberjack for log rotation
 	fileLogger := &lumberjack.Logger{
-		Filename: Filename,
-		MaxSize: 10,
-		MaxBackups: 3,
-		MaxAge: 30,
-		Compress: true,
+		Filename: fileName,
+		MaxSize: GetConfig().Logging.MaxSize,
+		MaxBackups: GetConfig().Logging.MaxBackups,
+		MaxAge: GetConfig().Logging.MaxAge,
+		Compress: GetConfig().Logging.Compress,
 	}
 
 	// 2. setup console output
@@ -41,6 +41,7 @@ func InitLogger() {
 
 	multi := zerolog.MultiLevelWriter(consoleWriter, fileLogger)
 
+	// - setup the logging format
 	Log = zerolog.New(multi).With().Timestamp().Caller().Logger()
 
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)

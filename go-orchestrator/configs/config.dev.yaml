@@ -1,7 +1,7 @@
 Logging:
   log_file: app.log
   log_dir: logs
-  max_size: 10
+  max_size: 5
   max_age: 30
   max_backups: 3
   compress: true

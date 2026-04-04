@@ -1,45 +1,39 @@
 package utils
 
-// this file is responsible for loading configurations from .env and YAML files using Viper and godotenv packages. 
-// It defines a Config struct to hold the configuration values and a LoadConfigs function to read the configurations into the AppConfig variable. 
-// Calls LoadConfigs to initialize the configuration before using it in the application.
-// example usage - fmt.Println("DB Username:", utils.AppConfig.ExampleParams.Username)
+// This file contains the logic to read the configuration from the YAML file
+// and unmarshal it into the Config struct. 
+// It uses the Viper library to read the configuration file and the godotenv 
+// library to load environment variables from a .env file. 
+// The GetConfig function is a singleton that ensures that the configuration is loaded only once
+// and can be accessed globally throughout the application.
+// `config_schemas.go`: contains the definition of the Config struct. 
 
 import (
 	"log"
 	"os"
+	"sync"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
-// todo -- // - change this according to the YAML structure - // todo -- //
-type Config struct {
-	Logging struct {
-		LogFile string `mapstructure:"log_file"`
-		LogDir string `mapstructure:"log_dir"`
-		MaxSize string `mapstructure:"max-size"`
-		MaxAge string `mapstructure:"max_age"`
-		MaxBackups string `mapstructure:"max_backups"`
-		Compress bool `mapstructure: "compress"`
-	}
 
-    ExampleParams struct {
-        Username string `mapstructure:"username"`
-        Password string `mapstructure:"password"`
-        Address  string `mapstructure:"address"`
-        Database string `mapstructure:"database"`
-    } `mapstructure:"exampleparams"` 
-    
-    ServerAddr string `mapstructure:"server_address"`
+var (
+	instance *Config
+	once sync.Once
+	config Config
+)
+
+func GetConfig() *Config {
+    once.Do(func() {
+        instance = loadConfigs()
+    })
+    return instance
 }
 
-var AppConfig Config
 
-
-func LoadConfigs() {
-	// - read the env file using godotenv, determine the config file name based on the ENV variable, 
-	// and load the YAML configuration using Viper.
+func loadConfigs() *Config {
+	// - read config YAML file based on the ENV variable 
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error while loading .env file: %v", err)
@@ -47,7 +41,7 @@ func LoadConfigs() {
 	config_env := os.Getenv("ENV")
 	config_name := "config." + config_env 
 
-	// - set up Viper to read the YAML configuration file, and unmarshal the configuration values into the AppConfig variable.
+	// - set up Viper to read the YAML configuration file
 	viper.AddConfigPath("./configs")
 	viper.SetConfigName(config_name)
 	viper.SetConfigType("yaml")
@@ -57,6 +51,10 @@ func LoadConfigs() {
 		log.Fatalf("Error while loading configs: %v", err)
 	}
 
-	// - handle any errors that occur during the loading process and log them appropriately.
-	viper.Unmarshal(&AppConfig)
+	// - unmarshal the configs into the Config struct
+	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatalf("Error unmarshaling configs: %v", err)
+	}
+
+	return &config
 }
