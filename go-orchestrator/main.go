@@ -15,6 +15,7 @@ func main() {
 
 	utils.Log.Info().Msg("Processing request")
     utils.Log.Info().Msg("User created successfully")
+	
 
 
 

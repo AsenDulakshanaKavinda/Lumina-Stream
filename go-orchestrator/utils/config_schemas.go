@@ -10,5 +10,8 @@ type Config struct {
 		MaxBackups int `mapstructure:"max_backups"`
 		Compress bool `mapstructure: "compress"`
 	}
+	GRPCConfig struct (
+		ServerAddr: `mapstructure:"server_address"`
+	)
     ServerAddr string `mapstructure:"server_address"`
 }

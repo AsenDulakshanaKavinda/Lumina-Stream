@@ -18,7 +18,7 @@ import (
 func Client() {
 	// setup the connection to the embedder server
 	conn, err := grpc.NewClient(
-		"localhost:50051",
+		utils.GetConfig().GRPCConfig.ServerAddr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
