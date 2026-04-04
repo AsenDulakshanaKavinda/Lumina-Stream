@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// todo - change this according to the YAML structure
+// todo -- // - change this according to the YAML structure - // todo -- //
 type Config struct {
     ExampleParams struct {
         Username string `mapstructure:"username"`
