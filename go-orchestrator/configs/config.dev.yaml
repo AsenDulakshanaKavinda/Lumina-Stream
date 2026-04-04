@@ -1,0 +1,6 @@
+ExampleParams:
+  username: value1-dev
+  password: value2-dev
+  address: address
+  database: database
+server_address: server_address
