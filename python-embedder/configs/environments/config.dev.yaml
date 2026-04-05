@@ -7,4 +7,4 @@ grpc_config:
 
 embedding_model:
   model_name: all-MiniLM-L6-v2
-  model_path: 
+  model_path: ./embedding_models

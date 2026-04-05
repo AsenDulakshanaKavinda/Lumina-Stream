@@ -31,11 +31,12 @@ class Embeddings:
         """
         try:
             log.info("Downloading embedding model")
+
             model = SentenceTransformer(
                 model_name_or_path = self.model_config.model_name,
             )
             log.info(f"Saving model")
-            model.save(self.model_path)
+            model.save(self.model_config.model_path)
 
         except Exception as e:
             log.error("Error while downloading embedding model")
@@ -68,4 +69,4 @@ class Embeddings:
 
 
 # - Initialize the embedding model
-embedding_model = Embeddings.loading_embedding_model()
+embedding_model = Embeddings().loading_embedding_model()

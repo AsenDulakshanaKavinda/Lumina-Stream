@@ -8,11 +8,10 @@ import (
 	"time"
 
 	pb "orchestrator/pb"
+	"orchestrator/utils"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-
-	"orchestrator/utils"
 )
 
 func Client() {
@@ -33,12 +32,12 @@ func Client() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	response, err := client.Embed(ctx, &pb.TextRequest{ Text: "text to embed" })
+	response, err := client.Embed(ctx, &pb.TextRequest{ Text: "This is a sample text to test embeddings" })
 	if err != nil {
 		utils.Log.Error().Err(err).Msg("Error while receiving response")
 	}
 	utils.Log.Info().Msg("Received response from server")
-	fmt.Println("Response: ", response)
+	fmt.Println("Response: ", len(response.Vector))
 
 
 }
