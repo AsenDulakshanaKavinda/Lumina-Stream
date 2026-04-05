@@ -4,3 +4,7 @@ logging:
 
 grpc_config:
   server_address: localhost:50051
+
+embedding_model:
+  model_name: all-MiniLM-L6-v2
+  model_path: ./embedding_models
