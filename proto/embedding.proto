@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package embeds;
+option go_package = "./pb";
+
+service Embedder {
+  rpc Embed (TextRequest) returns (VectorResponse);
+}
+
+message TextRequest {
+  string text = 1;
+}
+
+message VectorResponse {
+  repeated float vector = 1;
+}

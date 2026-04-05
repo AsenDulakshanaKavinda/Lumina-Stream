@@ -21,7 +21,6 @@ import (
 var (
 	instance *Config
 	once sync.Once
-	config Config
 )
 
 func GetConfig() *Config {
@@ -33,12 +32,15 @@ func GetConfig() *Config {
 
 
 func loadConfigs() *Config {
+	var config Config
+
 	// - read config YAML file based on the ENV variable 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error while loading .env file: %v", err)
-	}
+	_ = godotenv.Load()
+
 	config_env := os.Getenv("ENV")
+	if config_env == "" {
+		config_env = "dev"
+	}
 	config_name := "config." + config_env 
 
 	// - set up Viper to read the YAML configuration file

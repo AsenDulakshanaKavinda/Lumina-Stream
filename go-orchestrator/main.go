@@ -1,21 +1,11 @@
 package main
 
 import (
-	// "fmt"
-
-	"fmt"
-	"orchestrator/utils"
+	grpc_client "orchestrator/internal/grpc_clinet"
 )
 
 
 func main() {
-	utils.InitLogger()
-	fmt.Println(utils.GetConfig().Logging)
-
-
-	utils.Log.Info().Msg("Processing request")
-    utils.Log.Info().Msg("User created successfully")
-
-
-
+	// send a request and print the response
+	grpc_client.Client()
 }

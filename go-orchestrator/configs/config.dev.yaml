@@ -5,6 +5,8 @@ Logging:
   max_age: 30
   max_backups: 3
   compress: true
+grpc_config:
+  server_address: localhost:50051
 
 
 ExampleParams:
