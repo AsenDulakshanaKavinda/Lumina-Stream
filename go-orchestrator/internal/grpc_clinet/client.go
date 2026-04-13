@@ -8,7 +8,7 @@ import (
 	"time"
 
 	pb "orchestrator/pb"
-	"orchestrator/utils"
+	utils "orchestrator/utils"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

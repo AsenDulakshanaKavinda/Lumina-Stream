@@ -1,11 +1,20 @@
 package main
 
 import (
-	grpc_client "orchestrator/internal/grpc_clinet"
+	"fmt"
+	splitter "orchestrator/internal/splitter"
 )
 
 
+
 func main() {
-	// send a request and print the response
-	grpc_client.Client()
+	content := "Slices are an important data type in Go, giving a more powerful interface to sequences than arrays. To create a slice with non-zero length, use the builtin make. Here we make a slice of strings of length 3 (initially zero-valued). By default a new slice’s capacity is equal to its length; if we know the slice is going to grow ahead of time, it’s possible to pass a capacity explicitly as an additional parameter to make."
+	model := "gpt-4"
+
+	result, err := splitter.TokenChunker(content, 10, 3, model)
+	if err != nil {
+		fmt.Println("Error")
+	}
+	fmt.Println(len(result))
+
 }

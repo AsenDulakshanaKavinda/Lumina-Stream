@@ -25,12 +25,13 @@ func WatchFiles(
 
 	for {
 		select {
-		// 1. If the context is done, we should stop the watcher and return
+		// 1. If the context is done, stop the watcher and return
 		case <-ctx.Done():
 			utils.Log.Info().Msg("Watcher shutting down")
 			return
 
-		// 2. If receive an event, should check if it's a write or create event, and if so, should send a job to the fileJobs channel
+		// 2. If receive an event, should check if it's a write or create event, 
+		// and if so, should send a job to the fileJobs channel
 		case event, ok := <-watcher.Events:
 			if !ok {
 				return
@@ -39,7 +40,8 @@ func WatchFiles(
 			if event.Op & fsnotify.Write == fsnotify.Write ||
 				event.Op & fsnotify.Create == fsnotify.Create {
 					select {
-					case fileJobs <- pipeline.FileJob{Path: event.Name}: // send a job to the fileJobs channel
+					// send a job to the fileJobs channel
+					case fileJobs <- pipeline.FileJob{Path: event.Name}:
 						utils.Log.Info().Str("file", event.Name).Msg("job dispatched")
 
 					case <-ctx.Done():
