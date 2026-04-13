@@ -9,3 +9,10 @@ type ChunkJob struct {
     ChunkID  int
     Content  string
 }
+
+type EmbeddedChunk struct {
+	FilePath string
+	ChunkID  int
+	Content  string
+	Vector   []float32
+}
