@@ -19,9 +19,12 @@ func StartSplitterPool(
 		go func(id int) {
 			for {
 				select {
+				// 1. If the context is done, should stop the worker and return
 				case <-ctx.Done():
 					return
 				
+				// 2. If receive a job from the fileJobs channel, 
+				// should read the file content, split the content into chunks, and send the chunks to the chunkJobs channel
 				case job, ok := <-fileJobs:
 					if !ok {
 						return

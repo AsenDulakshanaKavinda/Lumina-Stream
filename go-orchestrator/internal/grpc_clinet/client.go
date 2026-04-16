@@ -14,7 +14,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func Client() {
+type Embedder struct {
+	client pb.EmbedderClient
+	conn *grpc.ClientConn
+}
+
+func EmbedderClient(target string) (*Embedder, error){
 	target_addr := utils.GetConfig().GRPCConfig.ServerAddr
 	
 	// setup the connection to the embedder server
